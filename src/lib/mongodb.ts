@@ -8,6 +8,7 @@ if (!dbName) throw new Error("Missing MONGODB_DB environment variable");
 
 export const VENDORS_COLLECTION = "wedding_vendors";
 export const PACKAGES_COLLECTION = "wedding_packages";
+export const GIFTS_COLLECTION = "wedding_gifts";
 
 declare global {
   // eslint-disable-next-line no-var

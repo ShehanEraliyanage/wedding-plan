@@ -2,18 +2,17 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useCompareIds, usePackageCompareIds } from "@/lib/hooks";
+import { usePackageCompareIds } from "@/lib/hooks";
 
 const TABS = [
   { href: "/", label: "Vendors", icon: "🏠", match: (p: string) => p === "/" || p.startsWith("/vendors") },
   { href: "/packages", label: "Packages", icon: "🎁", match: (p: string) => p.startsWith("/packages") },
-  { href: "/compare", label: "Compare", icon: "⚖️", match: (p: string) => p.startsWith("/compare") },
   { href: "/budget", label: "Budget", icon: "💰", match: (p: string) => p.startsWith("/budget") },
+  { href: "/gifts", label: "Gifts", icon: "💝", match: (p: string) => p.startsWith("/gifts") },
 ];
 
 export default function BottomNav() {
   const pathname = usePathname();
-  const compareCount = useCompareIds().length;
   const packageCompareCount = usePackageCompareIds().length;
 
   // The add/edit form provides its own sticky save bar.
@@ -24,8 +23,7 @@ export default function BottomNav() {
       <div className="grid grid-cols-5">
         {TABS.map((tab) => {
           const active = tab.match(pathname);
-          const badge =
-            tab.href === "/compare" ? compareCount : tab.href === "/packages" ? packageCompareCount : 0;
+          const badge = tab.href === "/packages" ? packageCompareCount : 0;
           return (
             <Link
               key={tab.href}

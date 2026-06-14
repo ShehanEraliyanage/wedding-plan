@@ -3,10 +3,9 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { removePackageCompare } from "@/lib/packageCompareStore";
 import ConfirmDialog from "@/components/ConfirmDialog";
 
-export default function DeleteWeddingPackageButton({ id }: { id: string }) {
+export default function DeleteGiftButton({ id, guestName }: { id: string; guestName: string }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [deleting, setDeleting] = useState(false);
@@ -14,16 +13,15 @@ export default function DeleteWeddingPackageButton({ id }: { id: string }) {
   async function handleDelete() {
     setDeleting(true);
     try {
-      const res = await fetch(`/api/packages/${id}`, { method: "DELETE" });
+      const res = await fetch(`/api/gifts/${id}`, { method: "DELETE" });
       if (!res.ok) throw new Error();
-      removePackageCompare(id);
-      toast.success("Package deleted");
-      router.push("/packages");
+      toast.success("Gift removed");
       router.refresh();
     } catch {
+      toast.error("Could not delete. Please try again.");
+    } finally {
       setDeleting(false);
       setOpen(false);
-      toast.error("Could not delete. Please try again.");
     }
   }
 
@@ -32,14 +30,16 @@ export default function DeleteWeddingPackageButton({ id }: { id: string }) {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="rounded-xl border border-red-200 px-4 py-3 text-sm font-semibold text-red-600"
+        aria-label={`Delete gift from ${guestName}`}
+        className="flex h-8 w-8 flex-shrink-0 items-center justify-center self-start rounded-full border border-gray-300 text-sm text-gray-400"
       >
-        Delete
+        ✕
       </button>
       <ConfirmDialog
         open={open}
-        title="Delete this package?"
-        message="This can't be undone."
+        title="Remove this gift?"
+        message={`This removes ${guestName}'s entry. This can't be undone.`}
+        confirmLabel="Remove"
         busy={deleting}
         onConfirm={handleDelete}
         onCancel={() => setOpen(false)}

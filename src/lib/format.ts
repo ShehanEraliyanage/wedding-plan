@@ -1,4 +1,4 @@
-import type { Package, PriceType, WeddingPackage, WeddingPackageItem } from "@/types";
+import type { Gift, Package, PriceType, WeddingPackage, WeddingPackageItem } from "@/types";
 
 const fmt = new Intl.NumberFormat("en-LK", {
   style: "currency",
@@ -46,4 +46,9 @@ export function itemCost(item: WeddingPackageItem, guestCount?: number): number 
 /** Total cost of a wedding package (sum of all item costs). */
 export function packageTotal(pkg: Pick<WeddingPackage, "items" | "guestCount">): number {
   return pkg.items.reduce((sum, it) => sum + itemCost(it, pkg.guestCount), 0);
+}
+
+/** Total cash received across a list of gifts. */
+export function giftsMoneyTotal(gifts: Pick<Gift, "amount">[]): number {
+  return gifts.reduce((sum, g) => sum + (g.amount ?? 0), 0);
 }

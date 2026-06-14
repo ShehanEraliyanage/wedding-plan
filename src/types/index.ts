@@ -76,6 +76,20 @@ export interface WeddingPackage {
 /** Payload the package create/edit form sends. Server sets _id and timestamps. */
 export type WeddingPackageInput = Omit<WeddingPackage, "_id" | "createdAt" | "updatedAt">;
 
+/** A gift or cash contribution received from a guest. */
+export interface Gift {
+  _id?: string;
+  guestName: string;
+  amount?: number; // cash received
+  item?: string; // gift item description
+  notes?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+/** Payload the gift create/edit form sends. Server sets _id and timestamps. */
+export type GiftInput = Omit<Gift, "_id" | "createdAt" | "updatedAt">;
+
 export type BucketId =
   | "venueFood"
   | "photoVideo"

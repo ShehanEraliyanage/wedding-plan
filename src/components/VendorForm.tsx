@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { CATEGORIES } from "@/lib/categories";
 import type { Category, Package, Vendor } from "@/types";
 import PhotoCapture from "@/components/PhotoCapture";
@@ -117,10 +118,13 @@ export default function VendorForm({ mode, vendor }: { mode: "create" | "edit"; 
       }
       const saved: Vendor = await res.json();
       if (mode === "create") localStorage.removeItem(DRAFT_KEY);
+      toast.success(mode === "create" ? "Vendor added" : "Changes saved");
       router.push(`/vendors/${saved._id}`);
       router.refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Save failed. Your data is kept — try again.");
+      const message = err instanceof Error ? err.message : "Save failed. Your data is kept — try again.";
+      setError(message);
+      toast.error(message);
       setSaving(false);
     }
   }

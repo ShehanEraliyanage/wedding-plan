@@ -2,7 +2,11 @@
 
 import { useMemo, useSyncExternalStore } from "react";
 import {
+  getBudgetPackageId,
+  getBudgetPackageSnapshot,
   getBudgetSnapshot,
+  getBudgetTargets,
+  getBudgetTargetsSnapshot,
   getBudgetTotal,
   getCompareIds,
   getCompareSnapshot,
@@ -43,5 +47,23 @@ export function useBudgetTotal(): number {
   return useMemo(() => {
     void snapshot;
     return getBudgetTotal();
+  }, [snapshot]);
+}
+
+/** Reactive per-section budget overrides (bucketId -> custom amount). */
+export function useBudgetTargets(): Record<string, number> {
+  const snapshot = useSyncExternalStore(subscribe, getBudgetTargetsSnapshot, () => "{}");
+  return useMemo(() => {
+    void snapshot;
+    return getBudgetTargets();
+  }, [snapshot]);
+}
+
+/** Reactive id of the package the budget tracks against ("" if none). */
+export function useBudgetPackageId(): string {
+  const snapshot = useSyncExternalStore(subscribe, getBudgetPackageSnapshot, () => "");
+  return useMemo(() => {
+    void snapshot;
+    return getBudgetPackageId();
   }, [snapshot]);
 }

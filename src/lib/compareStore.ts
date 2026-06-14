@@ -7,6 +7,8 @@
 
 const COMPARE_KEY = "wp.compare";
 const BUDGET_KEY = "wp.budget";
+const TARGETS_KEY = "wp.budget.targets";
+const BUDGET_PACKAGE_KEY = "wp.budget.package";
 export const MAX_COMPARE = 3;
 
 type Listener = () => void;
@@ -20,7 +22,13 @@ export function subscribe(listener: Listener): () => void {
   listeners.add(listener);
   // Sync across tabs.
   const onStorage = (e: StorageEvent) => {
-    if (e.key === COMPARE_KEY || e.key === BUDGET_KEY) listener();
+    if (
+      e.key === COMPARE_KEY ||
+      e.key === BUDGET_KEY ||
+      e.key === TARGETS_KEY ||
+      e.key === BUDGET_PACKAGE_KEY
+    )
+      listener();
   };
   window.addEventListener("storage", onStorage);
   return () => {
@@ -100,4 +108,51 @@ export function getBudgetTotal(): number {
 
 export function setBudgetTotal(value: number): void {
   write(BUDGET_KEY, String(Number.isFinite(value) ? value : 0));
+}
+
+// ---- per-section budget targets (overrides of the recommended split) ----
+
+export function getBudgetTargetsSnapshot(): string {
+  return read(TARGETS_KEY) ?? "{}";
+}
+
+export function getBudgetTargets(): Record<string, number> {
+  try {
+    const parsed = JSON.parse(getBudgetTargetsSnapshot());
+    if (typeof parsed !== "object" || parsed === null) return {};
+    const out: Record<string, number> = {};
+    for (const [k, v] of Object.entries(parsed)) {
+      if (typeof v === "number" && Number.isFinite(v)) out[k] = v;
+    }
+    return out;
+  } catch {
+    return {};
+  }
+}
+
+export function setBudgetTarget(id: string, amount: number): void {
+  const next = getBudgetTargets();
+  next[id] = Number.isFinite(amount) ? Math.max(0, amount) : 0;
+  write(TARGETS_KEY, JSON.stringify(next));
+}
+
+/** Remove a custom override so the section falls back to the recommended %. */
+export function resetBudgetTarget(id: string): void {
+  const next = getBudgetTargets();
+  delete next[id];
+  write(TARGETS_KEY, JSON.stringify(next));
+}
+
+// ---- the package whose cost the budget tracks against ----
+
+export function getBudgetPackageSnapshot(): string {
+  return read(BUDGET_PACKAGE_KEY) ?? "";
+}
+
+export function getBudgetPackageId(): string {
+  return getBudgetPackageSnapshot();
+}
+
+export function setBudgetPackageId(id: string): void {
+  write(BUDGET_PACKAGE_KEY, id);
 }

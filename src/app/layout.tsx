@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { Toaster } from "sonner";
 import "./globals.css";
 import BottomNav from "@/components/BottomNav";
 
@@ -22,6 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <main className="px-4 pb-28 pt-4">{children}</main>
           <BottomNav />
         </div>
+        <Toaster position="top-center" richColors closeButton />
       </body>
     </html>
   );
