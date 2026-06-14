@@ -46,6 +46,36 @@ export type VendorSlim = Omit<Vendor, "photos"> & { photoCount: number };
 /** Payload the create/edit form sends. Server sets _id and timestamps. */
 export type VendorInput = Omit<Vendor, "_id" | "createdAt" | "updatedAt">;
 
+/**
+ * One vendor line inside a WeddingPackage (a bundle). The display fields are a
+ * denormalized snapshot of the vendor + chosen pricing tier so list/detail/compare
+ * views render with no per-vendor fetch fan-out. vendorId + tierId are kept so the
+ * edit form can re-resolve live values from the vendor catalog and refresh the snapshot.
+ */
+export interface WeddingPackageItem {
+  vendorId: string;
+  tierId?: string; // chosen Package (pricing tier) id; undefined if vendor has none
+  vendorName: string;
+  category: Category;
+  tierName?: string;
+  price: number; // tier price, or vendor.estimatedCost ?? 0
+  priceType: PriceType; // tier priceType; "total" when falling back to estimatedCost
+}
+
+/** A bundle of vendors forming a complete wedding plan. UI label: "Package". */
+export interface WeddingPackage {
+  _id?: string;
+  name: string;
+  guestCount?: number; // drives per_pax cost math
+  notes?: string;
+  items: WeddingPackageItem[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+/** Payload the package create/edit form sends. Server sets _id and timestamps. */
+export type WeddingPackageInput = Omit<WeddingPackage, "_id" | "createdAt" | "updatedAt">;
+
 export type BucketId =
   | "venueFood"
   | "photoVideo"

@@ -32,7 +32,7 @@ export default function PackageEditor({
       {packages.map((pkg, i) => (
         <div key={pkg.id} className="rounded-xl border border-gray-200 bg-gray-50 p-3">
           <div className="mb-2 flex items-center justify-between">
-            <span className="text-xs font-semibold text-gray-500">Package {i + 1}</span>
+            <span className="text-xs font-semibold text-gray-500">Tier {i + 1}</span>
             <button
               type="button"
               onClick={() => remove(pkg.id)}
@@ -103,7 +103,7 @@ export default function PackageEditor({
         onClick={add}
         className="w-full rounded-xl border-2 border-dashed border-gray-300 py-2.5 text-sm font-medium text-gray-600"
       >
-        + Add package
+        + Add pricing tier
       </button>
     </div>
   );

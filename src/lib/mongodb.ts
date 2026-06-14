@@ -7,6 +7,7 @@ if (!uri) throw new Error("Missing MONGODB_URI environment variable");
 if (!dbName) throw new Error("Missing MONGODB_DB environment variable");
 
 export const VENDORS_COLLECTION = "wedding_vendors";
+export const PACKAGES_COLLECTION = "wedding_packages";
 
 declare global {
   // eslint-disable-next-line no-var

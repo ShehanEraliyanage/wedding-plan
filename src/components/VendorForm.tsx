@@ -172,9 +172,9 @@ export default function VendorForm({ mode, vendor }: { mode: "create" | "edit"; 
         <PhotoCapture photos={state.photos} onChange={(p) => set("photos", p)} />
       </section>
 
-      {/* Packages */}
+      {/* Pricing tiers */}
       <section>
-        <Label>Packages &amp; prices</Label>
+        <Label>Pricing tiers</Label>
         <PackageEditor packages={state.packages} onChange={(p) => set("packages", p)} />
       </section>
 

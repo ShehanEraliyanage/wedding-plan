@@ -8,6 +8,11 @@ import {
   getCompareSnapshot,
   subscribe,
 } from "@/lib/compareStore";
+import {
+  getPackageCompareIds,
+  getPackageCompareSnapshot,
+  subscribePackageCompare,
+} from "@/lib/packageCompareStore";
 
 /** Reactive list of vendor ids selected for comparison. */
 export function useCompareIds(): string[] {
@@ -16,6 +21,19 @@ export function useCompareIds(): string[] {
   return useMemo(() => {
     void snapshot;
     return getCompareIds();
+  }, [snapshot]);
+}
+
+/** Reactive list of wedding-package ids selected for comparison. */
+export function usePackageCompareIds(): string[] {
+  const snapshot = useSyncExternalStore(
+    subscribePackageCompare,
+    getPackageCompareSnapshot,
+    () => "[]",
+  );
+  return useMemo(() => {
+    void snapshot;
+    return getPackageCompareIds();
   }, [snapshot]);
 }
 

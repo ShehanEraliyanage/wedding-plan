@@ -1,4 +1,4 @@
-import type { Package, PriceType } from "@/types";
+import type { Package, PriceType, WeddingPackage, WeddingPackageItem } from "@/types";
 
 const fmt = new Intl.NumberFormat("en-LK", {
   style: "currency",
@@ -32,4 +32,18 @@ export function packagePriceLabel(pkg: Package): string {
 export function cheapestPackage(packages: Package[]): Package | undefined {
   if (!packages.length) return undefined;
   return packages.reduce((min, p) => (p.price < min.price ? p : min));
+}
+
+// ---- wedding-package (bundle) cost math ----
+// per_pax → price × guestCount; total & per_day → flat price.
+
+/** Cost of one package item given the bundle's guest count. */
+export function itemCost(item: WeddingPackageItem, guestCount?: number): number {
+  if (item.priceType === "per_pax") return item.price * (guestCount ?? 0);
+  return item.price;
+}
+
+/** Total cost of a wedding package (sum of all item costs). */
+export function packageTotal(pkg: Pick<WeddingPackage, "items" | "guestCount">): number {
+  return pkg.items.reduce((sum, it) => sum + itemCost(it, pkg.guestCount), 0);
 }

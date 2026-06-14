@@ -3,7 +3,7 @@ import { packagePriceLabel } from "@/lib/format";
 
 export default function PackageList({ packages }: { packages: Package[] }) {
   if (!packages.length) {
-    return <p className="text-sm text-gray-400">No packages recorded.</p>;
+    return <p className="text-sm text-gray-400">No pricing tiers recorded.</p>;
   }
 
   return (

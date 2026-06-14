@@ -2,10 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useCompareIds } from "@/lib/hooks";
+import { useCompareIds, usePackageCompareIds } from "@/lib/hooks";
 
 const TABS = [
   { href: "/", label: "Vendors", icon: "🏠", match: (p: string) => p === "/" || p.startsWith("/vendors") },
+  { href: "/packages", label: "Packages", icon: "🎁", match: (p: string) => p.startsWith("/packages") },
   { href: "/compare", label: "Compare", icon: "⚖️", match: (p: string) => p.startsWith("/compare") },
   { href: "/budget", label: "Budget", icon: "💰", match: (p: string) => p.startsWith("/budget") },
 ];
@@ -13,15 +14,18 @@ const TABS = [
 export default function BottomNav() {
   const pathname = usePathname();
   const compareCount = useCompareIds().length;
+  const packageCompareCount = usePackageCompareIds().length;
 
   // The add/edit form provides its own sticky save bar.
   if (pathname.endsWith("/new") || pathname.endsWith("/edit")) return null;
 
   return (
     <nav className="safe-bottom fixed inset-x-0 bottom-0 z-30 mx-auto max-w-screen-sm border-t border-gray-200 bg-white">
-      <div className="grid grid-cols-4">
+      <div className="grid grid-cols-5">
         {TABS.map((tab) => {
           const active = tab.match(pathname);
+          const badge =
+            tab.href === "/compare" ? compareCount : tab.href === "/packages" ? packageCompareCount : 0;
           return (
             <Link
               key={tab.href}
@@ -32,9 +36,9 @@ export default function BottomNav() {
             >
               <span className="text-lg leading-none">{tab.icon}</span>
               {tab.label}
-              {tab.href === "/compare" && compareCount > 0 && (
+              {badge > 0 && (
                 <span className="absolute right-1/2 top-1 translate-x-4 rounded-full bg-brand-600 px-1.5 text-[10px] font-bold text-white">
-                  {compareCount}
+                  {badge}
                 </span>
               )}
             </Link>

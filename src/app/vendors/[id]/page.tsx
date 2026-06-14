@@ -42,7 +42,7 @@ export default async function VendorDetailPage({ params }: { params: { id: strin
 
       <section>
         <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-gray-400">
-          Packages &amp; prices
+          Pricing tiers
         </h2>
         <PackageList packages={vendor.packages} />
       </section>

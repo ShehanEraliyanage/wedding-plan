@@ -4,6 +4,10 @@ import { categoryMeta } from "@/lib/categories";
 import { cheapestPackage, formatCurrency, packagePriceLabel } from "@/lib/format";
 import type { Vendor } from "@/types";
 
+function normalizeUrl(url: string): string {
+  return /^https?:\/\//i.test(url) ? url : `https://${url}`;
+}
+
 export default function CompareTable({
   vendors,
   onRemove,
@@ -47,7 +51,7 @@ export default function CompareTable({
             }}
           />
           <Row
-            label="Packages"
+            label="Pricing tiers"
             vendors={vendors}
             render={(v) =>
               v.packages.length ? (
@@ -78,6 +82,37 @@ export default function CompareTable({
               v.phone ? (
                 <a href={`tel:${v.phone}`} className="text-brand-700 underline">
                   {v.phone}
+                </a>
+              ) : (
+                "—"
+              )
+            }
+          />
+          <Row
+            label="Email"
+            vendors={vendors}
+            render={(v) =>
+              v.email ? (
+                <a href={`mailto:${v.email}`} className="text-brand-700 underline">
+                  {v.email}
+                </a>
+              ) : (
+                "—"
+              )
+            }
+          />
+          <Row
+            label="Website"
+            vendors={vendors}
+            render={(v) =>
+              v.website ? (
+                <a
+                  href={normalizeUrl(v.website)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-brand-700 underline"
+                >
+                  {v.website}
                 </a>
               ) : (
                 "—"
