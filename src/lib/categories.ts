@@ -14,6 +14,7 @@ export const CATEGORIES: CategoryMeta[] = [
   { id: "photography", label: "Photo / Video", icon: "📸", chip: "bg-violet-100 text-violet-700", bucket: "photoVideo" },
   { id: "makeup", label: "Makeup", icon: "💄", chip: "bg-pink-100 text-pink-700", bucket: "makeupDressing" },
   { id: "outfits", label: "Outfits", icon: "👗", chip: "bg-fuchsia-100 text-fuchsia-700", bucket: "makeupDressing" },
+  { id: "jewellery", label: "Jewellery", icon: "💍", chip: "bg-yellow-100 text-yellow-700", bucket: "jewellery" },
   { id: "decor", label: "Decor / Flowers", icon: "🌸", chip: "bg-emerald-100 text-emerald-700", bucket: "decor" },
   { id: "cake", label: "Cake", icon: "🎂", chip: "bg-amber-100 text-amber-700", bucket: "cakeExtras" },
   { id: "music", label: "Music / DJ", icon: "🎵", chip: "bg-sky-100 text-sky-700", bucket: "cakeExtras" },

@@ -5,6 +5,7 @@ export type Category =
   | "decor"
   | "cake"
   | "outfits"
+  | "jewellery"
   | "music"
   | "planner"
   | "cars"
@@ -92,6 +93,7 @@ export type GiftInput = Omit<Gift, "_id" | "createdAt" | "updatedAt">;
 
 export type BucketId =
   | "venueFood"
+  | "jewellery"
   | "photoVideo"
   | "makeupDressing"
   | "decor"

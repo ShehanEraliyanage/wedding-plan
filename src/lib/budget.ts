@@ -12,7 +12,8 @@ interface BucketDef {
 // Midpoints of the user's planning guide split — used as the default target
 // for each section until the user sets a custom amount.
 export const BUCKETS: BucketDef[] = [
-  { id: "venueFood", label: "Venue + Food", pct: 0.45, pctRange: [40, 50] },
+  { id: "venueFood", label: "Venue + Food", pct: 0.35, pctRange: [30, 40] },
+  { id: "jewellery", label: "Jewellery", pct: 0.125, pctRange: [10, 15] },
   { id: "photoVideo", label: "Photo + Video", pct: 0.225, pctRange: [20, 25] },
   { id: "makeupDressing", label: "Makeup + Dressing", pct: 0.125, pctRange: [10, 15] },
   { id: "decor", label: "Decor", pct: 0.1, pctRange: [10, 10] },
