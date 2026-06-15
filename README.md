@@ -18,8 +18,8 @@ Built with Next.js (App Router) + TypeScript + Tailwind + MongoDB.
    ```
 2. Create `.env.local` (see `.env.example`):
    ```
-   MONGODB_URI=mongodb+srv://USER:PASSWORD@CLUSTER.mongodb.net/?retryWrites=true&w=majority
-   MONGODB_DB=good-things-tracker
+   MONGODB_URI=
+   MONGODB_DB=
    ```
    Data is stored in a **new `wedding_vendors` collection** — your other collections are untouched.
 3. Run it:
